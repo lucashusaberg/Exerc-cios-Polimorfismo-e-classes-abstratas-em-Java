@@ -1,708 +1,257 @@
-import java.util.ArrayList;
+1
+abstract class FormaGeometrica {
+    public abstract double calcularArea();
+}
 
-class Produto {
-    String nome;
-    int quantidade;
-    double preco;
-    
-    Produto(String nome, int quantidade, double preco) {
-        this.nome = nome;
-        this.quantidade = quantidade;
-        this.preco = preco;
+class Circulo extends FormaGeometrica {
+    private double raio;
+
+    public Circulo(double raio) {
+        this.raio = raio;
     }
-    
-    void adicionarEstoque(int quantidade) {
-        this.quantidade += quantidade;
-    }
-    
-    boolean estoqueBaixo() {
-        return quantidade < 10;  // Exemplo de critério para estoque baixo
+
+    @Override
+    public double calcularArea() {
+        return Math.PI * raio * raio;
     }
 }
 
-class Fornecedor {
-    String nome;
-    ArrayList<Produto> produtos;
-    
-    Fornecedor(String nome) {
-        this.nome = nome;
-        this.produtos = new ArrayList<>();
+class Retangulo extends FormaGeometrica {
+    private double largura, altura;
+
+    public Retangulo(double largura, double altura) {
+        this.largura = largura;
+        this.altura = altura;
     }
-    
-    void adicionarProduto(Produto produto) {
-        produtos.add(produto);
-    }
-    
-    void listarProdutos() {
-        for (Produto produto : produtos) {
-            System.out.println(produto.nome + ": " + produto.quantidade + " unidades");
-        }
+
+    @Override
+    public double calcularArea() {
+        return largura * altura;
     }
 }
 
-class Pedido {
-    Fornecedor fornecedor;
-    Produto produto;
-    int quantidade;
-    
-    Pedido(Fornecedor fornecedor, Produto produto, int quantidade) {
-        this.fornecedor = fornecedor;
-        this.produto = produto;
-        this.quantidade = quantidade;
+class Triangulo extends FormaGeometrica {
+    private double base, altura;
+
+    public Triangulo(double base, double altura) {
+        this.base = base;
+        this.altura = altura;
     }
-    
-    void realizarPedido() {
-        fornecedor.adicionarProduto(new Produto(produto.nome, quantidade, produto.preco));
+
+    @Override
+    public double calcularArea() {
+        return (base * altura) / 2;
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Produto produto = new Produto("Café", 5, 10.0);
-        Fornecedor fornecedor = new Fornecedor("Distribuidora ABC");
-        Pedido pedido = new Pedido(fornecedor, produto, 50);
-        
-        pedido.realizarPedido();
-        fornecedor.listarProdutos();
-        
-        if (produto.estoqueBaixo()) {
-            System.out.println("Estoque do produto " + produto.nome + " está baixo.");
+        FormaGeometrica[] formas = {
+            new Circulo(5),
+            new Retangulo(4, 6),
+            new Triangulo(3, 7)
+        };
+
+        for (FormaGeometrica forma : formas) {
+            System.out.println("Área: " + forma.calcularArea());
         }
     }
 }
-import java.util.ArrayList;
+2
+abstract class Animal {
+    public abstract void emitirSom();
+    public abstract void mover();
+}
 
-class Funcionario {
-    String nome;
-    double salario;
-    ArrayList<Projeto> projetos;
-
-    Funcionario(String nome, double salario) {
-        this.nome = nome;
-        this.salario = salario;
-        this.projetos = new ArrayList<>();
+class Cachorro extends Animal {
+    @Override
+    public void emitirSom() {
+        System.out.println("Latido");
     }
 
-    void atribuirProjeto(Projeto projeto) {
-        projetos.add(projeto);
-    }
-
-    void listarProjetos() {
-        for (Projeto projeto : projetos) {
-            System.out.println(projeto.nome);
-        }
+    @Override
+    public void mover() {
+        System.out.println("O cachorro está correndo");
     }
 }
 
-class Departamento {
-    String nome;
-    ArrayList<Funcionario> funcionarios;
-
-    Departamento(String nome) {
-        this.nome = nome;
-        this.funcionarios = new ArrayList<>();
+class Gato extends Animal {
+    @Override
+    public void emitirSom() {
+        System.out.println("Miau");
     }
 
-    void adicionarFuncionario(Funcionario funcionario) {
-        funcionarios.add(funcionario);
-    }
-
-    double calcularMediaSalarial() {
-        double soma = 0;
-        for (Funcionario funcionario : funcionarios) {
-            soma += funcionario.salario;
-        }
-        return soma / funcionarios.size();
+    @Override
+    public void mover() {
+        System.out.println("O gato está andando");
     }
 }
 
-class Projeto {
-    String nome;
+class Passaro extends Animal {
+    @Override
+    public void emitirSom() {
+        System.out.println("Piu piu");
+    }
 
-    Projeto(String nome) {
-        this.nome = nome;
+    @Override
+    public void mover() {
+        System.out.println("O pássaro está voando");
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Funcionario funcionario1 = new Funcionario("Carlos", 3000);
-        Funcionario funcionario2 = new Funcionario("Ana", 4000);
-        Projeto projeto = new Projeto("Sistema de Vendas");
+        Animal[] animais = {
+            new Cachorro(),
+            new Gato(),
+            new Passaro()
+        };
 
-        funcionario1.atribuirProjeto(projeto);
-        funcionario2.atribuirProjeto(projeto);
-
-        Departamento departamento = new Departamento("TI");
-        departamento.adicionarFuncionario(funcionario1);
-        departamento.adicionarFuncionario(funcionario2);
-
-        System.out.println("Média salarial do departamento: " + departamento.calcularMediaSalarial());
-        funcionario1.listarProjetos();
-    }
-}
-
-import java.util.ArrayList;
-
-class Usuario {
-    String nome;
-    ArrayList<Publicacao> publicacoes;
-
-    Usuario(String nome) {
-        this.nome = nome;
-        this.publicacoes = new ArrayList<>();
-    }
-
-    void criarPublicacao(String conteudo) {
-        Publicacao publicacao = new Publicacao(conteudo, this);
-        publicacoes.add(publicacao);
-    }
-
-    void listarPublicacoes() {
-        for (Publicacao publicacao : publicacoes) {
-            System.out.println(publicacao.conteudo);
+        for (Animal animal : animais) {
+            animal.emitirSom();
+            animal.mover();
         }
     }
 }
+3
+abstract class ContaBancaria {
+    protected double saldo;
 
-class Publicacao {
-    String conteudo;
-    Usuario autor;
-    ArrayList<Comentario> comentarios;
-
-    Publicacao(String conteudo, Usuario autor) {
-        this.conteudo = conteudo;
-        this.autor = autor;
-        this.comentarios = new ArrayList<>();
+    public ContaBancaria(double saldoInicial) {
+        this.saldo = saldoInicial;
     }
 
-    void adicionarComentario(Comentario comentario) {
-        comentarios.add(comentario);
+    public abstract void sacar(double valor);
+    public abstract void depositar(double valor);
+
+    public double getSaldo() {
+        return saldo;
     }
 }
 
-class Comentario {
-    String texto;
-    Usuario autor;
+class ContaCorrente extends ContaBancaria {
 
-    Comentario(String texto, Usuario autor) {
-        this.texto = texto;
-        this.autor = autor;
+    public ContaCorrente(double saldoInicial) {
+        super(saldoInicial);
+    }
+
+    @Override
+    public void sacar(double valor) {
+        saldo -= valor;
+    }
+
+    @Override
+    public void depositar(double valor) {
+        saldo += valor;
+    }
+}
+
+class ContaPoupanca extends ContaBancaria {
+
+    public ContaPoupanca(double saldoInicial) {
+        super(saldoInicial);
+    }
+
+    @Override
+    public void sacar(double valor) {
+        saldo -= valor;
+    }
+
+    @Override
+    public void depositar(double valor) {
+        saldo += valor;
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Usuario usuario = new Usuario("João");
-        usuario.criarPublicacao("Meu primeiro post!");
+        ContaBancaria cc = new ContaCorrente(1000);
+        ContaBancaria cp = new ContaPoupanca(2000);
 
-        Publicacao publicacao = usuario.publicacoes.get(0);
-        publicacao.adicionarComentario(new Comentario("Ótimo post!", new Usuario("Maria")));
+        cc.sacar(100);
+        cp.depositar(500);
 
-        usuario.listarPublicacoes();
+        System.out.println("Saldo Conta Corrente: " + cc.getSaldo());
+        System.out.println("Saldo Conta Poupança: " + cp.getSaldo());
+    }
+}
+4
+abstract class Pagamento {
+    public abstract double calcularValor();
+}
+
+class PagamentoCartaoCredito extends Pagamento {
+    private double valorCompra;
+
+    public PagamentoCartaoCredito(double valorCompra) {
+        this.valorCompra = valorCompra;
+    }
+
+    @Override
+    public double calcularValor() {
+        return valorCompra * 1.05; // 5% de taxa de cartão
     }
 }
 
-import java.util.ArrayList;
+class PagamentoBoleto extends Pagamento {
+    private double valorCompra;
 
-class Passageiro {
-    String nome;
-    ArrayList<Reserva> reservas;
-
-    Passageiro(String nome) {
-        this.nome = nome;
-        this.reservas = new ArrayList<>();
+    public PagamentoBoleto(double valorCompra) {
+        this.valorCompra = valorCompra;
     }
 
-    void fazerReserva(Reserva reserva) {
-        reservas.add(reserva);
-    }
-
-    void listarReservas() {
-        for (Reserva reserva : reservas) {
-            System.out.println("Voo: " + reserva.voo.numeroVoo);
-        }
-    }
-}
-
-class Voo {
-    String numeroVoo;
-    int capacidade;
-    int vagasDisponiveis;
-
-    Voo(String numeroVoo, int capacidade) {
-        this.numeroVoo = numeroVoo;
-        this.capacidade = capacidade;
-        this.vagasDisponiveis = capacidade;
-    }
-
-    boolean verificarDisponibilidade() {
-        return vagasDisponiveis > 0;
-    }
-
-    void reservarVaga() {
-        if (verificarDisponibilidade()) {
-            vagasDisponiveis--;
-        } else {
-            System.out.println("Voo lotado.");
-        }
-    }
-}
-
-class Reserva {
-    Passageiro passageiro;
-    Voo voo;
-
-    Reserva(Passageiro passageiro, Voo voo) {
-        this.passageiro = passageiro;
-        this.voo = voo;
+    @Override
+    public double calcularValor() {
+        return valorCompra; // sem taxa adicional
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Passageiro passageiro = new Passageiro("Carlos");
-        Voo voo = new Voo("AB123", 100);
+        Pagamento pagamento1 = new PagamentoCartaoCredito(1000);
+        Pagamento pagamento2 = new PagamentoBoleto(1000);
 
-        if (voo.verificarDisponibilidade()) {
-            Reserva reserva = new Reserva(passageiro, voo);
-            passageiro.fazerReserva(reserva);
-            voo.reservarVaga();
-        }
+        System.out.println("Valor a pagar no cartão: " + pagamento1.calcularValor());
+        System.out.println("Valor a pagar no boleto: " + pagamento2.calcularValor());
+    }
+}
+5
+abstract class Funcionario {
+    public abstract double calcularSalario();
+}
 
-        passageiro.listarReservas();
+class Gerente extends Funcionario {
+    private double salarioBase;
+
+    public Gerente(double salarioBase) {
+        this.salarioBase = salarioBase;
+    }
+
+    @Override
+    public double calcularSalario() {
+        return salarioBase + salarioBase * 0.15; // 15% de bônus
     }
 }
 
-import java.util.ArrayList;
-import java.util.Date;
+class Programador extends Funcionario {
+    private double salarioBase;
 
-class Medico {
-    String nome;
-    ArrayList<Consulta> consultas;
-
-    Medico(String nome) {
-        this.nome = nome;
-        this.consultas = new ArrayList<>();
+    public Programador(double salarioBase) {
+        this.salarioBase = salarioBase;
     }
 
-    void agendarConsulta(Consulta consulta) {
-        consultas.add(consulta);
-    }
-
-    void listarPacientes() {
-        for (Consulta consulta : consultas) {
-            System.out.println("Paciente: " + consulta.paciente.nome);
-        }
-    }
-}
-
-class Paciente {
-    String nome;
-    Date dataNascimento;
-
-    Paciente(String nome, Date dataNascimento) {
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
-    }
-}
-
-class Consulta {
-    Medico medico;
-    Paciente paciente;
-    Date dataConsulta;
-
-    Consulta(Medico medico, Paciente paciente, Date dataConsulta) {
-        this.medico = medico;
-        this.paciente = paciente;
-        this.dataConsulta = dataConsulta;
+    @Override
+    public double calcularSalario() {
+        return salarioBase;
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        Medico medico = new Medico("Dr. João");
-        Paciente paciente = new Paciente("Maria", new Date());
-        Consulta consulta = new Consulta(medico, paciente, new Date());
-
-        medico.agendarConsulta(consulta);
-        medico.listarPacientes();
-    }
-}
-
-import java.util.ArrayList;
-
-class Carro {
-    String marca;
-    String modelo;
-    double preco;
-
-    Carro(String marca, String modelo, double preco) {
-        this.marca = marca;
-        this.modelo = modelo;
-        this.preco = preco;
-    }
-}
-
-class Marca {
-    String nome;
-    ArrayList<Carro> carros;
-
-    Marca(String nome) {
-        this.nome = nome;
-        this.carros = new ArrayList<>();
-    }
-
-    void adicionarCarro(Carro carro) {
-        carros.add(carro);
-    }
-
-    double calcularMediaPrecos() {
-        double soma = 0;
-        for (Carro carro : carros) {
-            soma += carro.preco;
-        }
-        return soma / carros.size();
-    }
-}
-
-class Vendedor {
-    String nome;
-    ArrayList<Carro> carrosVendidos;
-
-    Vendedor(String nome) {
-        this.nome = nome;
-        this.carrosVendidos = new ArrayList<>();
-    }
-
-    void venderCarro(Carro carro) {
-        carrosVendidos.add(carro);
-    }
-
-    void listarCarrosVendidos() {
-        for (Carro carro : carrosVendidos) {
-            System.out.println("Carro vendido: " + carro.modelo);
-        }
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Marca marca = new Marca("Toyota");
-        Carro carro = new Carro("Toyota", "Corolla", 20000);
-        marca.adicionarCarro(carro);
-
-        Vendedor vendedor = new Vendedor("Carlos");
-        vendedor.venderCarro(carro);
-
-        System.out.println("Média de preços da marca: " + marca.calcularMediaPrecos());
-        vendedor.listarCarrosVendidos();
-    }
-}
-
-import java.util.ArrayList;
-import java.util.Date;
-
-class Livro {
-    String titulo;
-    Autor autor;
-    int exemplaresDisponiveis;
-    int emprestimosTotais;
-
-    Livro(String titulo, Autor autor, int exemplaresDisponiveis) {
-        this.titulo = titulo;
-        this.autor = autor;
-        this.exemplaresDisponiveis = exemplaresDisponiveis;
-        this.emprestimosTotais = 0;
-    }
-
-    void emprestar() {
-        if (exemplaresDisponiveis > 0) {
-            exemplaresDisponiveis--;
-            emprestimosTotais++;
-        } else {
-            System.out.println("Livro indisponível.");
-        }
-    }
-
-    void devolver() {
-        exemplaresDisponiveis++;
-    }
-
-    void listarEmprestimos() {
-        System.out.println("Emprestimos totais: " + emprestimosTotais);
-    }
-}
-
-class Autor {
-    String nome;
-
-    Autor(String nome) {
-        this.nome = nome;
-    }
-}
-
-class Usuario {
-    String nome;
-    ArrayList<Emprestimo> emprestimos;
-
-    Usuario(String nome) {
-        this.nome = nome;
-        this.emprestimos = new ArrayList<>();
-    }
-
-    void realizarEmprestimo(Livro livro) {
-        Emprestimo emprestimo = new Emprestimo(this, livro, new Date());
-        emprestimos.add(emprestimo);
-        livro.emprestar();
-    }
-
-    void devolverLivro(Livro livro) {
-        for (Emprestimo emprestimo : emprestimos) {
-            if (emprestimo.livro == livro) {
-                livro.devolver();
-                emprestimos.remove(emprestimo);
-                break;
-            }
-        }
-    }
-}
-
-class Emprestimo {
-    Usuario usuario;
-    Livro livro;
-    Date dataEmprestimo;
-
-    Emprestimo(Usuario usuario, Livro livro, Date dataEmprestimo) {
-        this.usuario = usuario;
-        this.livro = livro;
-        this.dataEmprestimo = dataEmprestimo;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Autor autor = new Autor("Paulo Coelho");
-        Livro livro = new Livro("O Alquimista", autor, 5);
-        Usuario usuario = new Usuario("Ana");
-
-        usuario.realizarEmprestimo(livro);
-        usuario.devolverLivro(livro);
-
-        livro.listarEmprestimos();
-    }
-}
-
-import java.util.ArrayList;
-
-class Projeto {
-    String nome;
-    ArrayList<Tarefa> tarefas;
-
-    Projeto(String nome) {
-        this.nome = nome;
-        this.tarefas = new ArrayList<>();
-    }
-
-    void adicionarTarefa(Tarefa tarefa) {
-        tarefas.add(tarefa);
-    }
-
-    double calcularCargaTrabalho() {
-        double cargaTotal = 0;
-        for (Tarefa tarefa : tarefas) {
-            cargaTotal += tarefa.horas;
-        }
-        return cargaTotal;
-    }
-}
-
-class Desenvolvedor {
-    String nome;
-    ArrayList<Tarefa> tarefas;
-
-    Desenvolvedor(String nome) {
-        this.nome = nome;
-        this.tarefas = new ArrayList<>();
-    }
-
-    void atribuirTarefa(Tarefa tarefa) {
-        tarefas.add(tarefa);
-    }
-
-    void listarTarefas() {
-        for (Tarefa tarefa : tarefas) {
-            System.out.println(tarefa.nome);
-        }
-    }
-}
-
-class Tarefa {
-    String nome;
-    double horas;
-
-    Tarefa(String nome, double horas) {
-        this.nome = nome;
-        this.horas = horas;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Projeto projeto = new Projeto("Novo Sistema");
-        Tarefa tarefa = new Tarefa("Desenvolver Backend", 20);
-
-        Desenvolvedor desenvolvedor = new Desenvolvedor("Carlos");
-        desenvolvedor.atribuirTarefa(tarefa);
-
-        projeto.adicionarTarefa(tarefa);
-
-        System.out.println("Carga de trabalho total: " + projeto.calcularCargaTrabalho());
-        desenvolvedor.listarTarefas();
-    }
-}
-
-import java.util.ArrayList;
-import java.util.Date;
-
-class Prato {
-    String nome;
-    double preco;
-
-    Prato(String nome, double preco) {
-        this.nome = nome;
-        this.preco = preco;
-    }
-}
-
-class Mesa {
-    int numero;
-    ArrayList<Pedido> pedidos;
-
-    Mesa(int numero) {
-        this.numero = numero;
-        this.pedidos = new ArrayList<>();
-    }
-
-    void adicionarPedido(Pedido pedido) {
-        pedidos.add(pedido);
-    }
-
-    double calcularTotal() {
-        double total = 0;
-        for (Pedido pedido : pedidos) {
-            total += pedido.prato.preco;
-        }
-        return total;
-    }
-}
-
-class Pedido {
-    Prato prato;
-    Date data;
-
-    Pedido(Prato prato) {
-        this.prato = prato;
-        this.data = new Date();
-    }
-}
-
-class Reserva {
-    Mesa mesa;
-    Date dataReserva;
-
-    Reserva(Mesa mesa, Date dataReserva) {
-        this.mesa = mesa;
-        this.dataReserva = dataReserva;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Prato prato1 = new Prato("Pizza", 30);
-        Prato prato2 = new Prato("Sushi", 50);
-
-        Mesa mesa = new Mesa(5);
-        mesa.adicionarPedido(new Pedido(prato1));
-        mesa.adicionarPedido(new Pedido(prato2));
-
-        System.out.println("Total da conta: " + mesa.calcularTotal());
-    }
-}
-
-import java.util.ArrayList;
-
-class Estudante {
-    String nome;
-    int idade;
-    ArrayList<Disciplina> disciplinas;
-
-    Estudante(String nome, int idade) {
-        this.nome = nome;
-        this.idade = idade;
-        this.disciplinas = new ArrayList<>();
-    }
-
-    void matricular(Disciplina disciplina) {
-        disciplinas.add(disciplina);
-    }
-
-    void listarDisciplinas() {
-        for (Disciplina disciplina : disciplinas) {
-            System.out.println(disciplina.nome);
-        }
-    }
-
-    double calcularMedia() {
-        double soma = 0;
-        for (Disciplina disciplina : disciplinas) {
-            soma += disciplina.nota;
-        }
-        return soma / disciplinas.size();
-    }
-}
-
-class Professor {
-    String nome;
-    ArrayList<Disciplina> disciplinas;
-
-    Professor(String nome) {
-        this.nome = nome;
-        this.disciplinas = new ArrayList<>();
-    }
-
-    void adicionarDisciplina(Disciplina disciplina) {
-        disciplinas.add(disciplina);
-    }
-
-    void listarDisciplinas() {
-        for (Disciplina disciplina : disciplinas) {
-            System.out.println(disciplina.nome);
-        }
-    }
-}
-
-class Disciplina {
-    String nome;
-    double nota;
-
-    Disciplina(String nome, double nota) {
-        this.nome = nome;
-        this.nota = nota;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Estudante estudante = new Estudante("João", 20);
-        Disciplina disciplina = new Disciplina("Matemática", 8.5);
-        estudante.matricular(disciplina);
-
-        Professor professor = new Professor("Dr. Silva");
-        professor.adicionarDisciplina(disciplina);
-
-        estudante.listarDisciplinas();
-        System.out.println("Média do estudante: " + estudante.calcularMedia());
-        professor.listarDisciplinas();
+        Funcionario gerente = new Gerente(5000);
+        Funcionario programador = new Programador(3000);
+
+        System.out.println("Salário do Gerente: " + gerente.calcularSalario());
+        System.out.println("Salário do Programador: " + programador.calcularSalario());
     }
 }
